@@ -1,5 +1,4 @@
 [
-'PORT',
 'REALM',
 'RETURN_URL',
 'API_KEY',

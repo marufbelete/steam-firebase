@@ -4,6 +4,10 @@ const route=express.Router()
 const steam = require('../auth/steam')
 const firebaseAdmin = require("../helpers/firebase");
 
+route.get("/", async (req, res) => {
+    return res.send(`<a href="/auth/steam">Login with steam</a>`);
+  });
+
 route.get("/auth/steam", async (req, res) => {
     const redirectUrl = await steam.getRedirectUrl();
     return res.redirect(redirectUrl);
@@ -18,7 +22,7 @@ route.get("/auth/steam/authenticate", async (req, res,next) => {
     console.log(firebaseUser)
     console.log('user already exist but got token')
     const token = await firebaseAdmin.createCustomToken(firebaseUser.uid);
-    return res.json({ token });
+    return res.json({ token ,user});
    } 
    catch (error) {
     const newUser = await firebaseAdmin.createUser({
@@ -26,7 +30,7 @@ route.get("/auth/steam/authenticate", async (req, res,next) => {
       displayName: user.username
     })
     const token = await firebaseAdmin.createCustomToken(newUser.uid);
-    return res.json({ token });
+    return res.json({ token,user });
    }
  } 
   catch (error) {
